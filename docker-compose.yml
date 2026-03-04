@@ -1,0 +1,24 @@
+services:
+  bot:
+    build: .
+    container_name: polymarket-bot
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "4405:4405"
+    volumes:
+      - ./logs:/app/logs
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:6.0
+    container_name: polymarket-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
